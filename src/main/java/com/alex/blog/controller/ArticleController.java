@@ -19,6 +19,7 @@ import java.util.List;
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
+
     /**
      * 首页文章列表
      *
@@ -27,7 +28,7 @@ public class ArticleController {
      */
     @PostMapping
     public Result listArticle(@RequestBody PageParams pageParams) {
-        List<ArticleVo> articles=articleService.listArticle(pageParams);
+        List<ArticleVo> articles = articleService.listArticle(pageParams);
 
         return Result.success(articles);
     }

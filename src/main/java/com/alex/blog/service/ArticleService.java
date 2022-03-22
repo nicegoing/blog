@@ -1,8 +1,6 @@
 package com.alex.blog.service;
 
-import com.alex.blog.dao.pojo.Article;
 import com.alex.blog.vo.ArticleVo;
-import com.alex.blog.vo.Result;
 import com.alex.blog.vo.param.PageParams;
 
 import java.util.List;
