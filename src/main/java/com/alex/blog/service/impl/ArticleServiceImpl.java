@@ -7,6 +7,7 @@ import com.alex.blog.service.ArticleService;
 import com.alex.blog.service.SysUserService;
 import com.alex.blog.service.TagService;
 import com.alex.blog.vo.ArticleVo;
+import com.alex.blog.vo.Result;
 import com.alex.blog.vo.param.PageParams;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -41,10 +42,38 @@ public class ArticleServiceImpl implements ArticleService {
         return articleVoList;
     }
 
+    @Override
+    public Result hotArticles(int limit) {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        //是否置顶
+        queryWrapper.orderByDesc(Article::getViewCounts);
+        queryWrapper.select(Article::getId, Article::getTitle);
+        queryWrapper.last("limit " + limit);
+        List<Article> articles = articleMapper.selectList(queryWrapper);
+        return Result.success(copyList(articles, false, false));
+    }
+
+    @Override
+    public Result newArticles(int limit) {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        //是否置顶
+        queryWrapper.orderByDesc(Article::getCreateDate);
+        queryWrapper.select(Article::getId, Article::getTitle);
+        queryWrapper.last("limit " + limit);
+        List<Article> articles = articleMapper.selectList(queryWrapper);
+        return Result.success(copyList(articles, false, false));
+    }
+
+    @Override
+    public Result listArchives() {
+        List archives = articleMapper.listArchives();
+        return Result.success(archives);
+    }
+
     private List<ArticleVo> copyList(List<Article> records, boolean isTag, boolean isAuthor) {
         List<ArticleVo> articleVoList = new ArrayList<>();
         for (Article record : records) {
-            articleVoList.add(copy(record, true, true));
+            articleVoList.add(copy(record, isTag, isAuthor));
         }
         return articleVoList;
     }
