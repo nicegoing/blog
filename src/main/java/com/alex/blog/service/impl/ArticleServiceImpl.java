@@ -68,6 +68,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Result listArchives() {
         List archives = articleMapper.listArchives();
         return Result.success(archives);
+        
     }
 
     private List<ArticleVo> copyList(List<Article> records, boolean isTag, boolean isAuthor) {
@@ -92,5 +93,6 @@ public class ArticleServiceImpl implements ArticleService {
         }
         return articleVo;
     }
+
 
 }
